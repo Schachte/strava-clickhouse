@@ -1,0 +1,49 @@
+version: '3.8'
+
+networks:
+  monitoring:
+    driver: bridge
+
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    user: '101:101'
+    container_name: clickhouse
+    hostname: clickhouse
+    networks:
+      - monitoring
+    volumes:
+      - ${PWD}/volumes/clickhouse/users.xml:/etc/clickhouse-server/users.d/users.xml
+      - ${PWD}/volumes/clickhouse/logs/clickhouse-server/:/var/log/clickhouse-server/
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    networks:
+      - monitoring
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    ports:
+      - '3000:3000'
+    depends_on:
+      - clickhouse
+
+  tabix:
+    image: spoonest/clickhouse-tabix-web-client:latest
+    platform: linux/amd64
+    container_name: tabix
+    hostname: tabix
+    networks:
+      - monitoring
+    environment:
+      - CH_HOST=clickhouse
+      - CH_PORT=8123
+    ports:
+      - '8080:80'
+    depends_on:
+      - clickhouse

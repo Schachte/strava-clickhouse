@@ -1,0 +1,41 @@
+{
+  "name": "clickhouse-gpx",
+  "version": "1.0.0",
+  "description": "Ingest GPX files into ClickHouse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "dev:verbose": "DEBUG=gpx:* ts-node src/index.ts",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "debug": "node --inspect-brk -r ts-node/register src/index.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
+  },
+  "keywords": [
+    "clickhouse",
+    "gpx",
+    "strava"
+  ],
+  "author": "Ryan Schachte",
+  "license": "ISC",
+  "devDependencies": {
+    "@clickhouse/client": "^1.10.0",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "@types/uuid": "^10.0.0",
+    "@types/xml2js": "^0.4.14",
+    "pg": "^8.13.1",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "uuid": "^11.0.3",
+    "xml2js": "^0.6.2"
+  },
+  "dependencies": {
+    "@types/debug": "^4.1.12",
+    "debug": "^4.4.0"
+  }
+}
